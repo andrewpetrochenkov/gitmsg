@@ -1,0 +1,62 @@
+#!/usr/bin/env bash
+{ set +x; } 2>/dev/null
+
+usage() {
+    cat <<EOF 1>&2
+usage: $(basename $0)
+EOF
+[[ $1 == "-h" ]] || [[ $1 == "--help" ]]; exit
+}
+
+[[ $1 == "-h" ]] || [[ $1 == "--help" ]] && usage "$@"
+
+IFS=
+! [ -e .git ] && echo "ERROR: .git/ NOT EXISTS" 1>&2 && exit 1
+count="$(git rev-list --count HEAD 2> /dev/null)"
+[[ -z $count ]] && echo "init" && exit
+
+function count() {
+	[[ $1 != *"
+"* ]] && echo 1 && return
+	echo "$@" | wc -l | tr -d ' '
+}
+
+function add() {
+	msg="$msg
+$1"
+}
+
+function count() {
+	[[ $1 != *"
+"* ]] && echo 1 && return
+	echo "$@" | wc -l | tr -d ' '
+}
+
+function quote() {
+	[[ $1 != *" "* ]] && echo "$1" && return
+	echo "'$1'"
+}
+
+function comma() {
+	echo "$@" | tr '\n' ',' | rev | cut -c 3- | rev
+}
+
+status="$(git status -s)" || exit
+status="$(echo "$status" | awk '{$1=$1;print}')" || exit # ltrim rtrim
+
+# cut -d' ' -f2- (remove first word)
+deleted="$(echo "$status" | grep ^'D ' | cut -d' ' -f2- | sed 'H;1h;$!d;x;y/\n/,/')"
+renamed="$(echo "$status" | grep "^R \|^RR " | cut -d' ' -f2- | sed 'H;1h;$!d;x;y/\n/,/')"
+added="$(echo "$status" | grep "^A \|^AA " | cut -d' ' -f2- | sed 'H;1h;$!d;x;y/\n/,/')"
+modified="$(echo "$status" | grep "^M \|^MM \|^Mm" | cut -d' ' -f2- | sed 'H;1h;$!d;x;y/\n/,/')"
+msg=
+[[ -n $renamed ]] && add "$renamed"
+[[ -n $added ]] && add "+$added"
+
+[[ -n $modified ]] && add "^$modified"
+[[ -n $deleted ]] && add "-$deleted"
+
+msg="$(echo "$msg" | grep -v ^$ | perl -p -e 's/\n/; /' | rev | cut -c 3- | rev)"
+[[ ${#msg} -gt 75 ]] && msg="${msg:0:75} ..."
+[[ -z "$msg" ]] && echo "ERROR: git message EMPTY" && exit 1
+echo "$msg"
