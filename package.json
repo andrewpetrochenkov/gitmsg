@@ -1,17 +1,13 @@
 {
   "name": "gitmsg",
-  "version": "2018.11.19",
+  "version": "2019.3.22",
   "description": "autogenerate git commit message",
   "keywords": [
     "git"
   ],
   "homepage": "https://github.com/looking-for-a-job/gitmsg",
-  "license": "BSD-3-Clause",
+  "license": "Unlicense",
   "bin": {
     "gitmsg": "./scripts/gitmsg"
-  },
-  "os": [
-    "darwin",
-    "linux"
-  ]
+  }
 }
