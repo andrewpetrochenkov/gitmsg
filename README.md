@@ -1,5 +1,6 @@
 <!--
 https://pypi.org/project/readme-generator/
+https://pypi.org/project/python-readme-generator/
 -->
 
 [![](https://img.shields.io/badge/OS-Unix-blue.svg?longCache=True)]()
@@ -15,7 +16,7 @@ $ [sudo] npm i -g gitmsg
 $ [sudo] pip install gitmsg
 ```
 
-#### CLI
+#### Scripts usage
 ```bash
 usage: gitmsg
 ```
@@ -32,5 +33,5 @@ $ gitmsg
 ```
 
 <p align="center">
-    <a href="https://pypi.org/project/readme-generator/">readme-generator</a>
+    <a href="https://pypi.org/project/python-readme-generator/">python-readme-generator</a>
 </p>
