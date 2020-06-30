@@ -5,10 +5,10 @@ usage() {
     cat <<EOF 1>&2
 usage: $(basename $0)
 EOF
-[[ $1 == "-h" ]] || [[ $1 == "--help" ]]; exit
+    [ "$1" = "-h" ] || [ "$1" = "--help" ]; exit
 }
 
-[[ $1 == "-h" ]] || [[ $1 == "--help" ]] && usage "$@"
+[ "$1" = "-h" ] || [ "$1" = "--help" ] && usage "$@"
 
 IFS=
 ! [ -e .git ] && echo "ERROR: .git/ NOT EXISTS" 1>&2 && exit 1
