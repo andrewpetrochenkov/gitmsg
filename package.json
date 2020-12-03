@@ -1,6 +1,6 @@
 {
   "name": "gitmsg",
-  "version": "2019.4.13",
+  "version": "2020.12.3",
   "description": "autogenerate git commit message",
   "keywords": [
     "git"
